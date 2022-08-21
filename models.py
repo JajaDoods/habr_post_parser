@@ -1,3 +1,4 @@
+import re
 from typing import Dict
 
 
@@ -21,18 +22,45 @@ class Article:
         self.author_link = self.root_link + user_info_block['href']
         
     def __article_info(self) -> None:
-       header_container = self.soup.find('a', class_='tm-article-snippet__title-link')
+        '''
+        Extract article information: article title and link to the article
+        '''
+        header_container = self.soup.find('a', class_='tm-article-snippet__title-link')
 
-       self.article_link = self.root_link + header_container['href']
-       self.article_title = header_container.span.text.strip()
+        self.article_link = self.root_link + header_container['href']
+        self.article_title = header_container.span.text.strip()
+
+    def __voices_info(self) -> None:
+        '''
+        Extract information about voices on article 
+        '''
+        voices_container = self.counts_container.find(
+            'span',
+            class_='tm-votes-meter__value'
+        )
+
+        voices_increase = voices_container.text
+        voice_plus, voice_minus, total_voices = (0,) * 3
+        if voices_increase != '0' and voices_container['title']:
+            total_voices, voice_plus, voice_minus = re.findall('(\d+|\d+\.\d+)', voices_container['title'])
+
+        self.voices = {
+            'voices_increase': voices_increase,
+            'voice_plus': voice_plus,
+            'voice_minus': voice_minus,
+            'total_voices': total_voices
+        }
+
 
     def extract_info(self) -> Dict[str, str]:
         self.__author_info()
         self.__article_info()
+        self.__voices_info()
 
         return {
             'author_name': self.author_name,
             'author_link': self.author_link,
             'article_title': self.article_title,
-            'article_link': self.article_link
+            'article_link': self.article_link,
+            'voices': self.voices
         }
