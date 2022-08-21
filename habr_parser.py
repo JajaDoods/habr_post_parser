@@ -28,7 +28,8 @@ def main():
 
         articles_soup = soup.find_all('article')
         for article in articles_soup:
-            a = Article(article)
+            art_info = Article(article).extract_info()
+            articles.append(art_info)
 
         
         time.sleep(.1)
