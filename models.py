@@ -51,16 +51,34 @@ class Article:
             'total_voices': total_voices
         }
 
+    def __bookmarks_info(self) -> None:
+        '''
+        Extract informatino about number of article bookmarks
+        '''
+        self.num_bookmarks = self.counts_container.find('span', class_='bookmarks-button__counter').text.strip()
 
-    def extract_info(self) -> Dict[str, str]:
+    def __comments_info(self) -> None:
+        '''
+        Extract informatino about number of comments
+        '''
+        self.num_comments = self.counts_container.find('span', class_='tm-article-comments-counter-link__value').text.strip()
+
+    def get_info(self) -> Dict[str, str]:
         self.__author_info()
         self.__article_info()
         self.__voices_info()
+        self.__bookmarks_info()
+        self.__comments_info()
 
         return {
             'author_name': self.author_name,
             'author_link': self.author_link,
             'article_title': self.article_title,
             'article_link': self.article_link,
-            'voices': self.voices
+            'voices': self.voices,
+            'num_bookmarks': self.num_bookmarks,
+            'num_comments': self.num_comments
         }
+
+
+
