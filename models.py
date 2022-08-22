@@ -12,6 +12,13 @@ class Article:
 
         self.root_link = 'https://habr.com'
 
+    def __publicatoin_date_info(self) -> None:
+        '''
+        Extract publication date
+        '''
+        self.publication_datetime = self.meta_container.find('time')['title'].replace(',', '')
+
+
     def __author_info(self) -> None:
         '''
         Extract author information: username and link to account
@@ -64,6 +71,7 @@ class Article:
         self.num_comments = self.counts_container.find('span', class_='tm-article-comments-counter-link__value').text.strip()
 
     def get_info(self) -> Dict[str, str]:
+        self.__publicatoin_date_info()
         self.__author_info()
         self.__article_info()
         self.__voices_info()
@@ -71,6 +79,7 @@ class Article:
         self.__comments_info()
 
         return {
+            'publication_datetime': self.publication_datetime,
             'author_name': self.author_name,
             'author_link': self.author_link,
             'article_title': self.article_title,
