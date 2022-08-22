@@ -45,11 +45,11 @@ class Article:
             'span',
             class_='tm-votes-meter__value'
         )
-
+        print(self.article_link)
         voices_increase = voices_container.text
         voice_plus, voice_minus, total_voices = (0,) * 3
         if voices_increase != '0' and voices_container['title']:
-            total_voices, voice_plus, voice_minus = re.findall('(\d+|\d+\.\d+)', voices_container['title'])
+            total_voices, voice_plus, voice_minus = re.findall('(\d+\.\d+|\d+)', voices_container['title'])
 
         self.voices = {
             'voices_increase': voices_increase,
