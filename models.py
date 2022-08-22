@@ -51,7 +51,6 @@ class Article:
             'span',
             class_='tm-votes-meter__value'
         )
-        print(self.article_link)
         voices_increase = voices_container.text
         voice_plus, voice_minus, total_voices = (0,) * 3
         if voices_increase != '0' and voices_container['title']:
@@ -80,6 +79,7 @@ class Article:
         self.__publicatoin_date_info()
         self.__author_info()
         self.__article_info()
+        self.__views_info()
         self.__voices_info()
         self.__bookmarks_info()
         self.__comments_info()
@@ -91,6 +91,7 @@ class Article:
             'article_title': self.article_title,
             'article_link': self.article_link,
             'voices': self.voices,
+            'num_views': self.num_views,
             'num_bookmarks': self.num_bookmarks,
             'num_comments': self.num_comments
         }
