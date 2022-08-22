@@ -37,6 +37,12 @@ class Article:
         self.article_link = self.root_link + header_container['href']
         self.article_title = header_container.span.text.strip()
 
+    def __views_info(self) -> None:
+        '''
+        Extract views of article
+        '''
+        self.num_views = self.counts_container.find('span', class_='tm-icon-counter__value').text.strip()
+
     def __voices_info(self) -> None:
         '''
         Extract information about voices on article 
